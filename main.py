@@ -184,7 +184,6 @@ def get_ai_advice(data, callback):
 
     threading.Thread(target=worker, daemon=True).start()
 
-# ── WIDGETS ───────────────────────────────────────────────────────────────────
 
 def styled_button(parent, text, command, bg=ACCENT, fg="white", font=FONT_BODY, **kw):
     return tk.Button(
@@ -205,7 +204,6 @@ def make_card(parent, title, init="₹0.00", val_color=ACCENT2, width=200, heigh
     lbl.pack()
     return f, lbl
 
-# ── API KEY DIALOG ────────────────────────────────────────────────────────────
 
 class APIKeyDialog(tk.Toplevel):
     def __init__(self, parent):
@@ -255,8 +253,6 @@ class APIKeyDialog(tk.Toplevel):
         self.result = key
         self.destroy()
 
-# ── MAIN APP ──────────────────────────────────────────────────────────────────
-
 class FinanceApp(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -278,7 +274,6 @@ class FinanceApp(tk.Tk):
 
         self.refresh_all()
 
-    # ── MENU BAR ──────────────────────────────────────────────────────────────
 
     def _build_menubar(self):
         bar = tk.Menu(self, bg=BG_CARD, fg=TEXT_MAIN,
@@ -314,7 +309,6 @@ class FinanceApp(tk.Tk):
             self.refresh_all()
             self.set_status("All data cleared.")
 
-    # ── HEADER ────────────────────────────────────────────────────────────────
 
     def _build_header(self):
         hdr = tk.Frame(self, bg=BG_CARD, pady=10)
@@ -325,7 +319,6 @@ class FinanceApp(tk.Tk):
                  text=datetime.datetime.now().strftime("%A, %d %B %Y"),
                  font=FONT_BODY, fg=TEXT_DIM, bg=BG_CARD).pack(side="right", padx=20)
 
-    # ── NOTEBOOK ──────────────────────────────────────────────────────────────
 
     def _build_notebook(self):
         s = ttk.Style()
@@ -355,7 +348,6 @@ class FinanceApp(tk.Tk):
         self._build_charts_tab()
         self._build_ai_tab()
 
-    # ── STATUS BAR ────────────────────────────────────────────────────────────
 
     def _build_status_bar(self):
         self.status_var = tk.StringVar(value="  Ready")
@@ -367,7 +359,6 @@ class FinanceApp(tk.Tk):
         self.status_var.set(f"  {msg}")
         self.after(4000, lambda: self.status_var.set("  Ready"))
 
-    # ── DASHBOARD ─────────────────────────────────────────────────────────────
 
     def _build_dashboard(self):
         p = self.tab_dash
@@ -409,7 +400,6 @@ class FinanceApp(tk.Tk):
         self.dash_tree.tag_configure("income",  foreground=ACCENT2)
         self.dash_tree.tag_configure("expense", foreground=DANGER)
 
-    # ── TRANSACTIONS ──────────────────────────────────────────────────────────
 
     def _build_transactions(self):
         p = self.tab_tx
@@ -469,7 +459,6 @@ class FinanceApp(tk.Tk):
         styled_button(btns, "➕ Add",             self._add_tx,    bg=ACCENT).pack(side="left", padx=4)
         styled_button(btns, "🗑 Delete Selected", self._delete_tx, bg=DANGER).pack(side="left", padx=4)
 
-        # Filters
         filt = tk.Frame(p, bg=BG_DARK)
         filt.pack(fill="x", padx=20, pady=(0, 4))
 
@@ -549,7 +538,6 @@ class FinanceApp(tk.Tk):
         self.tx_tree.tag_configure("income",  foreground=ACCENT2)
         self.tx_tree.tag_configure("expense", foreground=DANGER)
 
-    # ── CHARTS ────────────────────────────────────────────────────────────────
 
     def _build_charts_tab(self):
         p = self.tab_ch
@@ -581,7 +569,6 @@ class FinanceApp(tk.Tk):
         fig.subplots_adjust(wspace=0.38, left=0.07, right=0.97, top=0.88, bottom=0.18)
         ax1, ax2, ax3 = fig.add_subplot(131), fig.add_subplot(132), fig.add_subplot(133)
 
-        # Pie
         if cat_totals:
             labels = list(cat_totals.keys())
             sizes  = list(cat_totals.values())
@@ -602,7 +589,6 @@ class FinanceApp(tk.Tk):
         ax1.set_title("Expenses by Category", color=TEXT_MAIN, fontsize=10, pad=10)
         ax1.set_facecolor(BG_CARD)
 
-        # Bar income vs expense
         if monthly:
             months = sorted(monthly.keys())[-6:]
             iv = [monthly[m]["Income"]  for m in months]
@@ -623,7 +609,6 @@ class FinanceApp(tk.Tk):
         ax2.set_facecolor(BG_CARD)
         ax2.spines[["top","right","left","bottom"]].set_visible(False)
 
-        # Savings bar
         if monthly:
             months = sorted(monthly.keys())[-6:]
             sv     = [monthly[m]["Income"] - monthly[m]["Expense"] for m in months]
@@ -645,10 +630,8 @@ class FinanceApp(tk.Tk):
         FigureCanvasTkAgg(fig, master=self.chart_frame).get_tk_widget().pack(
             fill="both", expand=True
         )
-        # draw after packing
         FigureCanvasTkAgg(fig, master=self.chart_frame).draw()
 
-    # ── AI ADVISOR ────────────────────────────────────────────────────────────
 
     def _build_ai_tab(self):
         p = self.tab_ai
@@ -722,7 +705,6 @@ class FinanceApp(tk.Tk):
         self.ai_text.config(state="normal")
         self.ai_text.delete("1.0", "end")
 
-        # Define text tags
         self.ai_text.tag_configure("heading",
             font=("Helvetica Neue", 13, "bold"), foreground=ACCENT2,
             spacing1=14, spacing3=6)
@@ -735,22 +717,18 @@ class FinanceApp(tk.Tk):
         self.ai_text.tag_configure("divider",
             font=("Helvetica Neue", 8), foreground=TEXT_DIM, spacing1=6, spacing3=6)
 
-        # Clean up the text
         text = re.sub(r"\[Model used:.*?\]\n?", "", text).strip()
 
-        # Remove "Dear Client," greeting lines at top
         text = re.sub(r"^Dear\s+\w+[,.]?\s*\n?", "", text, flags=re.IGNORECASE).strip()
 
         lines = text.split("\n")
         for line in lines:
             stripped = line.strip()
 
-            # Skip raw dividers
             if re.match(r"^[-_*]{3,}$", stripped):
                 self.ai_text.insert("end", "  " + "─" * 60 + "\n", "divider")
                 continue
 
-            # ### or ## Heading — strip ### and any leading numbers like "1." "2."
             if stripped.startswith("#"):
                 heading_text = re.sub(r"^#+\s*", "", stripped)
                 heading_text = re.sub(r"^\d+[\.\)]\s*", "", heading_text)
@@ -758,7 +736,6 @@ class FinanceApp(tk.Tk):
                 self.ai_text.insert("end", "\n" + heading_text + "\n", "heading")
                 continue
 
-            # Bullet points: *, -, •
             if re.match(r"^[\*\-•]\s+", stripped):
                 content = re.sub(r"^[\*\-•]\s+", "", stripped)
                 self.ai_text.insert("end", "  ● ", "bold")
@@ -766,7 +743,6 @@ class FinanceApp(tk.Tk):
                 self.ai_text.insert("end", "\n", "normal")
                 continue
 
-            # Numbered list lines like "1. text" → bullet
             if re.match(r"^\d+[\.\)]\s+", stripped):
                 content = re.sub(r"^\d+[\.\)]\s+", "", stripped)
                 self.ai_text.insert("end", "  ● ", "bold")
@@ -774,12 +750,10 @@ class FinanceApp(tk.Tk):
                 self.ai_text.insert("end", "\n", "normal")
                 continue
 
-            # Empty line
             if stripped == "":
                 self.ai_text.insert("end", "\n", "normal")
                 continue
 
-            # Normal paragraph line
             self._insert_inline_bold(stripped)
             self.ai_text.insert("end", "\n", "normal")
 
@@ -810,14 +784,12 @@ class FinanceApp(tk.Tk):
         get_ai_advice(self.data, lambda txt: self.after(0, self._on_ai_response, txt))
 
     def _on_ai_response(self, text):
-        # If it's an error message, show plain; otherwise render markdown
         if text.startswith("⚠️") or text.startswith("\u26a0"):
             self._set_ai_text(text)
         else:
             self._render_ai_markdown(text)
         self.set_status("AI advice received ✓")
 
-    # ── TREEVIEW HELPER ───────────────────────────────────────────────────────
 
     def _make_treeview(self, parent, columns, height=12):
         s = ttk.Style()
@@ -849,9 +821,7 @@ class FinanceApp(tk.Tk):
         sb.pack(side="right", fill="y")
         tv.pack(fill="both", expand=True)
         return tv
-
-    # ── REFRESH ───────────────────────────────────────────────────────────────
-
+    
     def refresh_all(self):
         self._update_dashboard()
         self._update_transactions()
