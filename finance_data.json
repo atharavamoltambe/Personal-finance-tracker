@@ -1,36 +1,3 @@
 {
-  "transactions": [
-    {
-      "id": 1774244383.01574,
-      "type": "Expense",
-      "category": "Food",
-      "amount": 67.0,
-      "note": "-",
-      "date": "2026-03-23"
-    },
-    {
-      "id": 1774244391.945217,
-      "type": "Expense",
-      "category": "Food",
-      "amount": 45.0,
-      "note": "-",
-      "date": "2026-03-23"
-    },
-    {
-      "id": 1774244397.004275,
-      "type": "Expense",
-      "category": "Food",
-      "amount": 100.0,
-      "note": "-",
-      "date": "2026-03-23"
-    },
-    {
-      "id": 1774244407.800876,
-      "type": "Income",
-      "category": "Salary",
-      "amount": 150.0,
-      "note": "-",
-      "date": "2026-03-23"
-    }
-  ]
+  "transactions": []
 }
