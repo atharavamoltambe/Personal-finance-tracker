@@ -11,11 +11,9 @@ matplotlib.use("TkAgg")
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-# ── FILE PATHS ────────────────────────────────────────────────────────────────
 DATA_FILE   = "finance_data.json"
 CONFIG_FILE = "config.json"
 
-# ── COLOUR PALETTE ────────────────────────────────────────────────────────────
 BG_DARK   = "#0F1117"
 BG_CARD   = "#1A1D27"
 BG_INPUT  = "#242736"
@@ -36,9 +34,6 @@ EXPENSE_CATEGORIES = ["Food", "Rent", "Transport", "Shopping", "Entertainment",
                         "Health", "Education", "Utilities", "EMI", "Insurance", "Other"]
 CATEGORIES = INCOME_CATEGORIES + EXPENSE_CATEGORIES
 
-
-# ── CONFIG (API KEY) ──────────────────────────────────────────────────────────
-
 def load_config():
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE) as f:
@@ -56,8 +51,6 @@ def set_api_key(key):
     cfg = load_config()
     cfg["gemini_api_key"] = key
     save_config(cfg)
-
-# ── DATA LAYER ────────────────────────────────────────────────────────────────
 
 def load_data():
     if os.path.exists(DATA_FILE):
@@ -88,8 +81,6 @@ def get_summary(data):
     income   = sum(t["amount"] for t in data["transactions"] if t["type"] == "Income")
     expenses = sum(t["amount"] for t in data["transactions"] if t["type"] == "Expense")
     return income, expenses, income - expenses
-
-# ── AI ADVICE (Google Gemini - FREE) ─────────────────────────────────────────
 
 def get_ai_advice(data, callback):
     income, expenses, savings = get_summary(data)
