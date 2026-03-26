@@ -1,24 +1,3 @@
-"""
-Personal Finance Tracker & AI Advisor
-======================================
-A full Tkinter desktop app with:
-  - Dashboard (income, expenses, savings summary)
-  - Transaction Manager (add/delete/filter)
-  - Embedded Matplotlib charts (pie + bar + savings)
-  - AI-powered advice via Google Gemini API (FREE)
-
-Requirements:
-    pip install matplotlib requests
-
-Usage:
-    python personal_finance_tracker.py
-
-    On first launch a dialog will ask for your Google Gemini API key.
-    Get your FREE key at: https://aistudio.google.com/app/apikey
-    It is saved locally in config.json for all future runs.
-    You can update it any time via  Settings → Set API Key.
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 import json
@@ -54,7 +33,7 @@ FONT_BODY = ("Helvetica Neue", 11)
 
 INCOME_CATEGORIES  = ["Salary", "Freelance", "Investment", "Gift", "Bonus", "Rental Income", "Other Income"]
 EXPENSE_CATEGORIES = ["Food", "Rent", "Transport", "Shopping", "Entertainment",
-                      "Health", "Education", "Utilities", "EMI", "Insurance", "Other"]
+                        "Health", "Education", "Utilities", "EMI", "Insurance", "Other"]
 CATEGORIES = INCOME_CATEGORIES + EXPENSE_CATEGORIES
 
 
