@@ -1,22 +1,3 @@
 {
-
-  "transactions": [
-    {
-      "id": 1775663339.799783,
-      "type": "Expense",
-      "category": "Food",
-      "amount": 10.0,
-      "note": "-",
-      "date": "2026-04-08"
-    },
-    {
-      "id": 1775663348.194178,
-      "type": "Income",
-      "category": "Salary",
-      "amount": 30.0,
-      "note": "-",
-      "date": "2026-04-08"
-    }
-  ]
-
+  "transactions": []
 }
