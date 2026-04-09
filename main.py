@@ -4,6 +4,7 @@ import json
 import os
 import datetime
 import threading
+import signal
 import requests
 
 import matplotlib
@@ -132,10 +133,14 @@ def get_ai_advice(data, callback):
 
             # Try models in order until one works
             models_to_try = [
-                "gemini-2.5-flash",
-                "gemini-2.0-flash",
-                "gemini-1.5-flash",
-                "gemini-1.0-pro",
+                # "gemini-2.5-flash",
+                # "gemini-2.0-flash",
+                # "gemini-1.5-flash",
+                # "gemini-1.0-pro",
+                # "gemini-1.5-pro",
+                # "gemini-2.0-flash-lite"
+                # "gemini-3-flash"
+                "gemini-3-flash-preview"
             ]
 
             last_error = ""
@@ -612,10 +617,12 @@ class FinanceApp(tk.Tk):
         if monthly:
             months = sorted(monthly.keys())[-6:]
             sv     = [monthly[m]["Income"] - monthly[m]["Expense"] for m in months]
-            ax3.bar(months, sv,
+            x = range(len(months))
+            ax3.bar(x, sv,
                     color=[ACCENT2 if v >= 0 else DANGER for v in sv],
                     edgecolor=BG_DARK, linewidth=1.5)
             ax3.axhline(0, color=TEXT_DIM, linewidth=0.8, linestyle="--")
+            ax3.set_xticks(list(x))
             ax3.set_xticklabels(months, rotation=35, ha="right", color=TEXT_DIM, fontsize=8)
             ax3.tick_params(colors=TEXT_DIM)
             ax3.yaxis.grid(True, color="#2A2D3E", linewidth=0.6)
@@ -831,4 +838,5 @@ class FinanceApp(tk.Tk):
 
 if __name__ == "__main__":
     app = FinanceApp()
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
     app.mainloop()
